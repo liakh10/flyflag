@@ -1,6 +1,6 @@
 /* ================= CONFIG: единственное место, где меняются данные ================= */
 window.SITE = {
-  CA:      "SOON",                       /* строго "SOON" до лаунча, потом 0x… (42 символа) */
+  CA:      "0x07e1CDB8fAC565aa11aC2FA70dcb67A20522980e",                       /* строго "SOON" до лаунча, потом 0x… (42 символа) */
   X_URL:   "https://x.com/flytheflag_rh",
   NAME:    "Fly the Flag",
   TICKER:  "$FLYFLAG",
