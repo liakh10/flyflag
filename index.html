@@ -96,7 +96,6 @@ tr.card td{white-space:normal;background:#0c1c39;padding:14px 10px 16px}
 .order .f span{color:#5b5a4e;letter-spacing:.14em;text-transform:uppercase;font-size:10px;padding-top:3px}
 .order .f b{font-weight:400;word-break:break-all}
 .order .f b.ca{color:#8a5a12;font-weight:700}
-.order .st{position:absolute;right:18px;top:14px;border:2px solid var(--red);color:var(--red);font-family:var(--sten);font-weight:700;font-size:11px;letter-spacing:.16em;padding:5px 8px;transform:rotate(-7deg);text-transform:uppercase}
 .order .sig{margin-top:12px;padding-top:10px;border-top:1px dashed #c8bfa6;display:flex;justify-content:space-between;gap:12px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#5b5a4e}
 .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
 .acts .key{height:38px;padding:0 16px}
@@ -152,18 +151,15 @@ tr.card td{white-space:normal;background:#0c1c39;padding:14px 10px 16px}
   </section>
 
   <section>
-    <div class="h"><h2>Hoist order</h2><span>Filed by the registry for its own flag</span></div>
-    <div class="order" id="order" title="Copy contract"><div class="st" id="st">Not hoisted</div>
-      <div class="hd"><span>Form HO-1</span><span>Pole: Robinhood Chain</span><span>Halyard: Pons</span></div>
+    <div class="h"><h2>Contract</h2><span>Robinhood Chain &#183; Pons</span></div>
+    <div class="order" id="order" title="Copy contract">
+      <div class="hd"><span>Robinhood Chain</span><span>Pons</span></div>
       <div class="f">
         <span>Flag</span><b data-name>Fly the Flag</b>
         <span>Ticker</span><b data-ticker>$FLYFLAG</b>
-        <span>Owner</span><b>Nobody, which is everybody</b>
-        <span>Material</span><b>Flies, arranged</b>
-        <span>Proportion</span><b>2:3, like most of them</b>
         <span>Contract</span><b class="ca" id="ca">soon</b>
       </div>
-      <div class="sig"><span>Signed at this pole</span><span id="cp">Tap the order to copy</span></div>
+      <div class="sig"><span></span><span id="cp">Tap to copy</span></div>
     </div>
     <div class="acts">
       <a class="key buy" data-link="pons" href="https://www.ponsfamily.com/launchpad">Buy on Pons<img src="assets/pons-mark.png" alt="" /></a>
@@ -185,8 +181,8 @@ tr.card td{white-space:normal;background:#0c1c39;padding:14px 10px 16px}
   document.querySelectorAll('[data-link="dex"]').forEach(function(a){ a.href = HAS ? window.DEX_HOME + '/' + CA : window.DEX_HOME; a.target = '_blank'; a.rel = 'noopener'; });
   document.querySelectorAll('[data-link="x"]').forEach(function(a){ a.href = S.X_URL || 'https://x.com'; a.target = '_blank'; a.rel = 'noopener'; });
   document.getElementById('upd').textContent = D.totals.updated;
-  var ca = document.getElementById('ca'), cp = document.getElementById('cp'), st = document.getElementById('st');
-  ca.textContent = HAS ? CA : 'soon'; st.textContent = HAS ? 'Hoisted' : 'Not hoisted';
+  var ca = document.getElementById('ca'), cp = document.getElementById('cp');
+  ca.textContent = HAS ? CA : 'soon';
   document.getElementById('order').addEventListener('click', function(){ var old = cp.textContent; if(HAS){ if(navigator.clipboard) navigator.clipboard.writeText(CA); cp.textContent = 'Copied'; } else cp.textContent = 'Not on the pole yet'; setTimeout(function(){ cp.textContent = old; }, 1300); });
   function esc(s){ return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
   function n(x){ return x.toLocaleString('en-US'); }
