@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Fly the Flag</title>
+<meta name="description" content="Vexillological registry on Robinhood Chain. 194 sovereign flags on file: adopted, proportion, colours, and which tokenized asset each one is quoted in. The flag itself is made of flies." />
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="apple-touch-icon" href="assets/apple-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&family=Cutive+Mono&display=swap" rel="stylesheet" />
+<style>
+:root{--sea:#0a1730;--deep:#0e1f3d;--bone:#ece4d1;--brass:#c9a24d;--rope:#a88a52;--red:#d0392b;--dim:#8592a8;--faint:#2a3b5e;--line:#1b2c4d;
+  --sten:"Stardos Stencil","Cutive Mono",monospace;--mono:"Cutive Mono","Courier New",monospace;--pad:clamp(16px,3vw,44px)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{overflow-x:hidden}
+body{background:var(--sea);color:var(--bone);font-family:var(--mono);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(ellipse at 30% 0%,#13284d,var(--sea) 55%)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{width:min(1240px,100%);margin:0 auto;padding:0 var(--pad)}
+.k{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 0 0}
+.top .r{display:flex;gap:6px}
+.key{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px;border:1px solid var(--faint);font-family:var(--sten);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone);transition:border-color .15s}
+.key:hover{border-color:var(--brass)}
+.key.buy{background:var(--brass);color:#1a1406;border-color:var(--brass)}
+.key img{width:14px;height:14px;object-fit:contain}
+/* hero: the pole */
+.hero{display:grid;grid-template-columns:minmax(300px,1fr) minmax(0,1fr);gap:clamp(18px,3vw,50px);align-items:center;padding:clamp(28px,4vw,60px) 0 clamp(20px,3vw,40px)}
+.pole{position:relative;aspect-ratio:1/1;max-height:520px}
+#flag{width:100%;height:100%;display:block}
+.hcap{position:absolute;left:14%;bottom:4%;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.hcap b{color:var(--bone);font-weight:400}
+h1{font-family:var(--sten);font-weight:700;font-size:clamp(44px,7vw,92px);line-height:.94;letter-spacing:.02em;text-transform:uppercase;color:var(--bone)}
+h1 i{font-style:normal;color:var(--brass)}
+.tick{font-family:var(--sten);font-weight:700;font-size:clamp(24px,3.4vw,44px);letter-spacing:.06em;color:var(--brass);margin-top:8px}
+.lede{margin-top:16px;max-width:54ch}
+.lede b{font-weight:400;color:var(--brass)}
+.point{margin-top:14px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.cur{display:inline-block;width:.55em;height:1em;background:var(--brass);vertical-align:-.15em;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+/* strip */
+.strip{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.strip div{padding:16px 14px 14px;border-right:1px solid var(--line)}
+.strip div:last-child{border-right:0}
+.strip b{display:block;font-family:var(--sten);font-weight:700;font-size:clamp(22px,3vw,38px);line-height:1;letter-spacing:.02em}
+.strip span{display:block;margin-top:8px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.strip i{font-style:normal;color:var(--red)}
+section{padding:clamp(34px,5vw,64px) 0 0}
+.h{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.h h2{font-family:var(--sten);font-weight:700;font-size:clamp(18px,2.4vw,28px);letter-spacing:.06em;text-transform:uppercase;color:var(--brass)}
+.h span{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.note{max-width:78ch;color:var(--dim);margin-bottom:14px}
+.note b{color:var(--bone);font-weight:400}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);font-weight:400;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
+td.num,th.num{text-align:right}
+tr.f{cursor:pointer;transition:background .12s}
+tr.f:hover{background:#112448}
+tr.f.on{background:#14294f}
+.sw{display:inline-flex;gap:2px;vertical-align:middle;margin-right:8px}
+.sw i{display:block;width:9px;height:14px;border:1px solid rgba(0,0,0,.35)}
+.q{font-family:var(--sten);font-weight:700;letter-spacing:.06em;color:var(--brass)}
+.q.eth{color:var(--dim);font-family:var(--mono);font-weight:400}
+.tscroll{overflow-x:auto}
+tr.card td{white-space:normal;background:#0c1c39;padding:14px 10px 16px}
+.card .dz{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:16px;align-items:start}
+.card .dz p{color:var(--bone);max-width:70ch}
+.card .dz small{display:block;color:var(--dim);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-top:8px}
+.card .mini{border:1px solid var(--faint);padding:8px;background:#091428}
+.card .mini canvas{width:100%;display:block}
+.filter{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.filter input{background:#091428;border:1px solid var(--faint);color:var(--bone);font:inherit;padding:8px 10px;width:min(320px,100%);letter-spacing:.04em}
+.filter input:focus{outline:none;border-color:var(--brass)}
+.more{margin:12px 0 0;font-family:var(--sten);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);border:1px solid var(--faint);padding:10px 14px}
+.more:hover{color:var(--bone);border-color:var(--brass)}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.tile{border:1px solid var(--line);padding:12px 12px 10px;min-width:0;background:#0c1c39;display:block}
+.tile:hover{border-color:var(--brass)}
+.tile b{display:block;font-family:var(--sten);font-weight:700;font-size:20px;letter-spacing:.06em;color:var(--brass)}
+.tile em{display:block;font-style:normal;color:var(--bone);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile small{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-top:8px}
+.bars{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 28px}
+.bar{display:grid;grid-template-columns:90px 1fr 60px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+.bar .d{height:10px;opacity:.9}
+.bar .n{text-align:right;color:var(--dim);font-size:11px}
+/* hoist order: the CA */
+.order{border:1px solid var(--brass);background:#ece4d1;color:#14192a;padding:clamp(16px,2.6vw,28px);max-width:760px;cursor:pointer;position:relative;box-shadow:6px 8px 0 rgba(0,0,0,.45);font-family:var(--mono)}
+.order .hd{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--sten);font-weight:700;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5b5a4e;border-bottom:1px solid #c8bfa6;padding-bottom:10px;margin-bottom:12px}
+.order .f{display:grid;grid-template-columns:190px 1fr;gap:7px 16px;font-size:12.5px}
+.order .f span{color:#5b5a4e;letter-spacing:.14em;text-transform:uppercase;font-size:10px;padding-top:3px}
+.order .f b{font-weight:400;word-break:break-all}
+.order .f b.ca{color:#8a5a12;font-weight:700}
+.order .st{position:absolute;right:18px;top:14px;border:2px solid var(--red);color:var(--red);font-family:var(--sten);font-weight:700;font-size:11px;letter-spacing:.16em;padding:5px 8px;transform:rotate(-7deg);text-transform:uppercase}
+.order .sig{margin-top:12px;padding-top:10px;border-top:1px dashed #c8bfa6;display:flex;justify-content:space-between;gap:12px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#5b5a4e}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.acts .key{height:38px;padding:0 16px}
+.end{margin-top:clamp(40px,6vw,80px);border-top:1px solid var(--line);padding:18px 0 calc(var(--pad) + 6px);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.end a{color:var(--dim)}
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr} .pole{max-width:360px;margin:0 auto}
+  .strip{grid-template-columns:repeat(2,1fr)} .strip div{border-right:0;border-bottom:1px solid var(--line)}
+  .card .dz{grid-template-columns:1fr}
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bars{grid-template-columns:1fr}
+  .order .f{grid-template-columns:1fr}
+  .key span.t{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="k">Vexillological registry &#183; Robinhood Chain</span>
+    <span class="r"><a class="key buy" data-link="pons" href="https://www.ponsfamily.com/launchpad"><span class="t">Buy</span><img src="assets/pons-mark.png" alt="" /></a><a class="key" data-link="x" href="https://x.com">X</a></span>
+  </div>
+
+  <header class="hero">
+    <div class="pole"><canvas id="flag" aria-label="A flag made of flies, waving"></canvas><div class="hcap" id="hcap">Nobody's flag &#183; <b>made of flies</b></div></div>
+    <div>
+      <h1>Fly<br />the <i>Flag</i></h1>
+      <div class="tick" data-ticker>$FLYFLAG</div>
+      <p class="lede">194 sovereign flags on file: when they were adopted, how wide they are, which colours they use, and which tokenized asset on this chain each one is quoted in. <b>The flag on the pole belongs to nobody. It is made of flies.</b></p>
+      <div class="point">Point at a flag <span class="cur"></span></div>
+    </div>
+  </header>
+
+  <div class="strip" id="strip"></div>
+
+  <section>
+    <div class="h"><h2>The registry</h2><span>194 flags &#183; click a row for the design</span></div>
+    <p class="note">Proportion and colours are measured from the flags themselves. Adoption is the year the current design was hoisted. <b>Quoted in</b> is the tokenized asset on Robinhood Chain tied to that country; without one, a flag launches in native ETH.</p>
+    <div class="filter"><input id="q" type="search" placeholder="Find a country, a colour, a ratio" aria-label="Search" /><span class="k" id="qn"></span></div>
+    <div class="tscroll"><table id="reg"><thead><tr><th>#</th><th>Flag</th><th>Country</th><th class="num">Adopted</th><th>Proportion</th><th>Colours</th><th>Quoted in</th></tr></thead><tbody></tbody></table></div>
+    <button class="more" id="more">Unroll the next forty</button>
+  </section>
+
+  <section>
+    <div class="h"><h2>Hoisted</h2><span>Flags with an asset on chain</span></div>
+    <p class="note">A flag is hoisted when its country has a tokenized asset trading on Robinhood Chain right now. <b>Eleven of 194 are up.</b> The rest fly in ETH.</p>
+    <div class="tiles" id="hoist"></div>
+  </section>
+
+  <section>
+    <div class="h"><h2>Colour census</h2><span>How many flags use each colour</span></div>
+    <div class="bars" id="census"></div>
+  </section>
+
+  <section>
+    <div class="h"><h2>Hoist order</h2><span>Filed by the registry for its own flag</span></div>
+    <div class="order" id="order" title="Copy contract"><div class="st" id="st">Not hoisted</div>
+      <div class="hd"><span>Form HO-1</span><span>Pole: Robinhood Chain</span><span>Halyard: Pons</span></div>
+      <div class="f">
+        <span>Flag</span><b data-name>Fly the Flag</b>
+        <span>Ticker</span><b data-ticker>$FLYFLAG</b>
+        <span>Owner</span><b>Nobody, which is everybody</b>
+        <span>Material</span><b>Flies, arranged</b>
+        <span>Proportion</span><b>2:3, like most of them</b>
+        <span>Contract</span><b class="ca" id="ca">soon</b>
+      </div>
+      <div class="sig"><span>Signed at this pole</span><span id="cp">Tap the order to copy</span></div>
+    </div>
+    <div class="acts">
+      <a class="key buy" data-link="pons" href="https://www.ponsfamily.com/launchpad">Buy on Pons<img src="assets/pons-mark.png" alt="" /></a>
+      <a class="key" data-link="dex" href="https://dexscreener.com/robinhood">Chart</a>
+      <a class="key" data-link="x" href="https://x.com">X</a>
+    </div>
+  </section>
+
+  <div class="end"><span data-name>Fly the Flag</span><span>Flags: measured from the SVGs &#183; adoption and design: Wikipedia &#183; countries: mledoze &#183; assets: DexScreener &#183; snapshot <span id="upd"></span></span><span>Not financial advice, not a real flag</span></div>
+</div>
+
+<script>
+(function(){
+  var S = window.SITE, D = window.FLAGS, CA = (S.CA || "SOON").trim(), HAS = CA !== "SOON" && CA !== "";
+  document.querySelectorAll('[data-name]').forEach(function(e){ e.textContent = S.NAME; });
+  document.querySelectorAll('[data-ticker]').forEach(function(e){ e.textContent = S.TICKER; });
+  document.title = S.NAME;
+  document.querySelectorAll('[data-link="pons"]').forEach(function(a){ a.href = HAS ? window.PONS_HOME + '/' + CA : window.PONS_HOME; a.target = '_blank'; a.rel = 'noopener'; });
+  document.querySelectorAll('[data-link="dex"]').forEach(function(a){ a.href = HAS ? window.DEX_HOME + '/' + CA : window.DEX_HOME; a.target = '_blank'; a.rel = 'noopener'; });
+  document.querySelectorAll('[data-link="x"]').forEach(function(a){ a.href = S.X_URL || 'https://x.com'; a.target = '_blank'; a.rel = 'noopener'; });
+  document.getElementById('upd').textContent = D.totals.updated;
+  var ca = document.getElementById('ca'), cp = document.getElementById('cp'), st = document.getElementById('st');
+  ca.textContent = HAS ? CA : 'soon'; st.textContent = HAS ? 'Hoisted' : 'Not hoisted';
+  document.getElementById('order').addEventListener('click', function(){ var old = cp.textContent; if(HAS){ if(navigator.clipboard) navigator.clipboard.writeText(CA); cp.textContent = 'Copied'; } else cp.textContent = 'Not on the pole yet'; setTimeout(function(){ cp.textContent = old; }, 1300); });
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  function n(x){ return x.toLocaleString('en-US'); }
+  var T = D.totals, cen = {}; T.census.forEach(function(c){ cen[c[0]] = c[1]; });
+  document.getElementById('strip').innerHTML = [[T.flags, 'Flags on file'], ['<i>' + T.hoisted + '</i>', 'Hoisted on chain'], [T.oldest, 'Oldest still flying'], [T.ratios[0][0], 'Most common proportion'], [cen.red + '/' + T.flags, 'Flags with red']].map(function(x){ return '<div><b>' + x[0] + '</b><span>' + x[1] + '</span></div>'; }).join('');
+
+  /* registry */
+  var tb = document.querySelector('#reg tbody'), list = D.flags.slice(), shown = 0, open = -1, qn = document.getElementById('qn');
+  function sw(f){ return '<span class="sw">' + f.colors.slice(0, 5).map(function(c){ return '<i style="background:' + c.hex + '"></i>'; }).join('') + '</span>'; }
+  function row(f, i){ return '<tr class="f" data-cc="' + f.cc + '"><td style="color:var(--dim)">' + String(i + 1).padStart(3, '0') + '</td><td>' + sw(f) + '</td><td>' + esc(f.name) + '</td><td class="num">' + (f.year || '<span style="color:var(--dim)">—</span>') + '</td><td>' + (f.ratio || '—') + '</td><td style="color:var(--dim)">' + f.colors.slice(0, 4).map(function(c){ return c.name; }).join(', ') + '</td><td>' + (f.quoted ? '<span class="q">' + f.quoted.t + '</span>' : '<span class="q eth">native ETH</span>') + '</td></tr>'; }
+  function render(reset){ if(reset){ tb.innerHTML = ''; shown = 0; open = -1; } var k = reset ? 40 : 40; tb.insertAdjacentHTML('beforeend', list.slice(shown, shown + k).map(function(f, j){ return row(f, shown + j); }).join('')); shown += k; document.getElementById('more').hidden = shown >= list.length; qn.textContent = list.length + ' of ' + D.flags.length; }
+  render(true); document.getElementById('more').addEventListener('click', function(){ render(false); });
+  document.getElementById('q').addEventListener('input', function(){ var v = this.value.trim().toLowerCase(); list = D.flags.filter(function(f){ return !v || f.name.toLowerCase().indexOf(v) > -1 || (f.ratio || '').indexOf(v) > -1 || f.colors.some(function(c){ return c.name.indexOf(v) > -1; }) || (f.quoted && f.quoted.t.toLowerCase().indexOf(v) > -1) || (f.region || '').toLowerCase().indexOf(v) > -1; }); render(true); });
+  function card(f){ return '<tr class="card"><td colspan="7"><div class="dz"><div><p>' + (f.design ? esc(f.design) : 'No design notes on file.') + '</p><small>' + esc(f.official) + ' · ' + esc(f.region || '') + (f.capital ? ' · ' + esc(f.capital) : '') + (f.adoption ? ' · adopted ' + esc(f.adoption) : '') + (f.quoted ? ' · quoted in ' + f.quoted.t + ' (' + esc(f.quoted.name) + ')' : ' · quoted in native ETH') + '</small></div><div class="mini"><canvas data-cc="' + f.cc + '"></canvas></div></div></td></tr>'; }
+  tb.addEventListener('click', function(e){ var tr = e.target.closest('tr.f'); if(!tr) return; var cc = tr.dataset.cc; var old = tb.querySelector('tr.card'); if(old) old.remove(); tb.querySelectorAll('tr.f.on').forEach(function(r){ r.classList.remove('on'); }); if(open === cc){ open = -1; return; } open = cc; tr.classList.add('on'); var f = D.flags.filter(function(x){ return x.cc === cc; })[0]; tr.insertAdjacentHTML('afterend', card(f)); miniFlag(tr.nextElementSibling.querySelector('canvas'), f); });
+  var hcap = document.getElementById('hcap');
+  tb.addEventListener('mouseover', function(e){ var tr = e.target.closest('tr.f'); if(!tr) return; var f = D.flags.filter(function(x){ return x.cc === tr.dataset.cc; })[0]; hcap.innerHTML = esc(f.name) + ' &#183; <b>' + (f.year || 'undated') + ' &#183; ' + (f.ratio || '') + '</b>'; gust = 1; });
+  tb.addEventListener('mouseleave', function(){ hcap.innerHTML = 'Nobody\'s flag &#183; <b>made of flies</b>'; });
+
+  /* hoisted */
+  document.getElementById('hoist').innerHTML = D.flags.filter(function(f){ return f.quoted; }).sort(function(a, b){ return b.quoted.vol - a.quoted.vol; }).map(function(f){ return '<a class="tile" href="https://dexscreener.com/robinhood/' + f.quoted.addr + '" target="_blank" rel="noopener"><b>' + f.quoted.t + '</b><em>' + esc(f.name) + ' · ' + esc(f.quoted.name) + '</em><small>24h on chain $' + n(f.quoted.vol) + '</small></a>'; }).join('');
+
+  /* colour census */
+  var CH = { red:'#d0392b', white:'#ece4d1', blue:'#3f6fd8', green:'#2f9a52', yellow:'#e8c34a', black:'#222', orange:'#e07a2a', grey:'#8592a8', teal:'#2aa39a' };
+  document.getElementById('census').innerHTML = T.census.map(function(c){ return '<div class="bar"><span>' + c[0] + '</span><div class="d" style="width:' + (100 * c[1] / T.flags).toFixed(1) + '%;background:' + (CH[c[0]] || '#888') + '"></div><span class="n">' + c[1] + ' / ' + T.flags + '</span></div>'; }).join('');
+
+  /* the flag of flies */
+  var cv = document.getElementById('flag'), ctx = cv.getContext('2d'), dpr = 1, gust = 0, sprite = null;
+  function makeSprite(px, col){ var c = document.createElement('canvas'); c.width = c.height = px; var x = c.getContext('2d'); x.fillStyle = col; var r = px / 2;
+    x.beginPath(); x.ellipse(r, r * 1.1, r * .22, r * .5, 0, 0, 7); x.fill();
+    x.globalAlpha = .55; x.beginPath(); x.ellipse(r * .55, r * .9, r * .42, r * .16, -.6, 0, 7); x.fill(); x.beginPath(); x.ellipse(r * 1.45, r * .9, r * .42, r * .16, .6, 0, 7); x.fill(); x.globalAlpha = 1;
+    x.beginPath(); x.arc(r, r * .55, r * .17, 0, 7); x.fill(); return c; }
+  function size(){ dpr = Math.min(devicePixelRatio || 1, 2); var w = cv.clientWidth, h = cv.clientHeight || w; cv.width = w * dpr; cv.height = h * dpr; sprite = makeSprite(Math.max(6, Math.round(cv.width / 44)), '#ece4d1'); }
+  var t0 = performance.now();
+  function draw(now){
+    var W = cv.width, H = cv.height, t = (now - t0) / 1000; gust *= .97;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, W, H);
+    var px = W * .12, top = H * .08, fw = W * .74, fh = fw * 2 / 3, cols = 44, rows = 30, cw = fw / cols, ch = fh / rows;
+    ctx.fillStyle = '#c9a24d'; ctx.fillRect(px - 3 * dpr, top - 10 * dpr, 6 * dpr, H); ctx.beginPath(); ctx.arc(px, top - 12 * dpr, 7 * dpr, 0, 7); ctx.fill();
+    for(var j = 0; j < rows; j++) for(var i = 0; i < cols; i++){
+      var u = i / cols, amp = (6 + 18 * u + 22 * gust * u) * dpr, ph = u * 5.2 - t * 2.4;
+      var dy = Math.sin(ph) * amp, dx = Math.cos(ph) * amp * .25, slope = Math.cos(ph);
+      var x = px + i * cw + dx, y = top + j * ch + dy + u * 6 * dpr;
+      ctx.globalAlpha = .55 + .45 * (slope * .5 + .5);
+      ctx.drawImage(sprite, x, y, sprite.width, sprite.height);
+    }
+    ctx.globalAlpha = 1; requestAnimationFrame(draw);
+  }
+  function miniFlag(c, f){ var w = 220, h = Math.round(w / (f.ratio && f.ratio.indexOf(':') > 0 ? (+f.ratio.split(':')[1] / +f.ratio.split(':')[0]) : 1.5)); c.width = w * 2; c.height = h * 2; var x = c.getContext('2d'); var sp = makeSprite(10, '#ece4d1'); var cols = 30, rws = Math.round(cols * h / w);
+    for(var j = 0; j < rws; j++) for(var i = 0; i < cols; i++){ var col = f.colors[Math.min(f.colors.length - 1, Math.floor(j / rws * f.colors.length))]; x.globalAlpha = .9; x.drawImage(sp, i * (c.width / cols), j * (c.height / rws), 10, 10); } }
+  addEventListener('resize', size); size(); requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
